@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="application.MainController" stylesheets="@styles.css">
+
+<left>
+    <VBox spacing="15" style="-fx-background-color: #2c3e50; -fx-padding: 15; -fx-border-color: white; -fx-border-width: 2px; -fx-border-radius: 5px;" prefWidth="280">
+        <children>
+            <!-- Título do Menu -->
+            <Label text="Menu" style="-fx-font-size: 22px; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            
+			<!-- Botão Cadastro de Categoria -->
+			<Button fx:id="btnCategoria" styleClass="button" text="Categorias" onAction="#handleCadastroCategoria"
+			        style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 0 10 20; -fx-alignment: CENTER_LEFT; -fx-pref-height: 50px; -fx-pref-width: 250px;">
+			    <graphic>
+			        <Label text="📑 - " style="-fx-font-size: 18px; -fx-text-fill: white;"/>
+			    </graphic>
+			</Button>
+
+                        
+            <!-- Botão Cadastro de Cliente -->
+            <Button fx:id="btnCliente" styleClass="button"  text="Clientes" onAction="#handleCadastroCliente"
+                    style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 0 10 20; -fx-alignment: CENTER_LEFT; -fx-pref-height: 50px; -fx-pref-width: 250px;">
+                <graphic>
+                    <Label text="👤 - " style="-fx-font-size: 18px; -fx-text-fill: white;"/>
+                </graphic>
+            </Button>
+
+            <!-- Botão Cadastro de Produto -->
+            <Button fx:id="btnProduto" styleClass="button"   text="Produtos" onAction="#handleCadastroProduto"
+                    style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 0 10 20; -fx-alignment: CENTER_LEFT; -fx-pref-height: 50px; -fx-pref-width: 250px;">
+                <graphic>
+                    <Label text="📦 - " style="-fx-font-size: 18px; -fx-text-fill: white;"/>
+                </graphic>
+            </Button>
+
+            <!-- Botão PDV -->
+            <Button fx:id="btnPDV" styleClass="button"   text="PDV" onAction="#handlePdv"
+                    style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 0 10 20; -fx-alignment: CENTER_LEFT; -fx-pref-height: 50px; -fx-pref-width: 250px;">
+                <graphic>
+                    <Label text="🛒 - " style="-fx-font-size: 18px; -fx-text-fill: white;"/>
+                </graphic>
+            </Button>
+        </children>
+
+        <padding>
+            <Insets top="10" left="10" right="10" bottom="10"/>
+        </padding>
+    </VBox>
+</left>
+
+
+<top>
+    <StackPane style="-fx-background-color: #2c3e50; -fx-border-color: white; -fx-border-width: 2px; -fx-border-radius: 5px;" prefHeight="100">
+        <children>
+            <!-- Imagem no Top -->
+            <ImageView fitHeight="90" fitWidth="150">
+                <image>
+                    <Image url="@logo-banner-principal.jpg"/>
+                </image>
+            </ImageView>
+            <!-- Texto do Banner -->
+        </children>
+    </StackPane>
+</top>
+
+
+	<center>
+		<StackPane fx:id="contentArea"
+			style="-fx-background-color: white;" />
+	</center>
+</BorderPane>

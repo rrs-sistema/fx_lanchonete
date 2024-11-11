@@ -1,0 +1,120 @@
+/* styles.css */
+
+/* Estilo padrão para toda a aplicação */
+.root {
+    -fx-font-family: "Arial";
+    -fx-background-color: #f7f9fc;
+    -fx-padding: 20;
+}
+
+/* Botões */
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-padding: 8 16;
+}
+.button:hover {
+    -fx-background-color: #45a049;
+}
+
+/* Labels de título */
+.label-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+/* Labels de descrição e valores */
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555;
+}
+
+/* Campos de texto */
+.text-field, .password-field, .combo-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5;
+    -fx-padding: 6 12;
+}
+
+/* Tabelas */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 5;
+}
+.table-view .column-header-background {
+    -fx-background-color: #4CAF50;
+}
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+
+/* Estilo para o menu e botões */
+
+.menu-button {
+    -fx-background-color: #3498db; /* Cor de fundo azul suave */
+    -fx-text-fill: white; /* Cor do texto */
+    -fx-font-size: 16px; /* Tamanho da fonte */
+    -fx-font-weight: bold; /* Negrito */
+    -fx-background-radius: 10; /* Arredondamento dos cantos */
+    -fx-padding: 10 20; /* Espaçamento interno */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 3); /* Sombra */
+}
+
+.menu-button:hover {
+    -fx-background-color: #2980b9; /* Cor de fundo mais escura ao passar o mouse */
+}
+
+.menu-button:pressed {
+    -fx-background-color: #1f618d; /* Cor de fundo ainda mais escura ao pressionar */
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.4), 10, 0, 0, 0); /* Sombra interna ao pressionar */
+}
+
+/* Estilo para os itens do menu */
+.menu-label {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+.menu-icon {
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+}
+
+/* Estilo para o indicador de notificação */
+.notif {
+    -fx-background-radius: 10;
+    -fx-padding: 3 5;
+    -fx-font-size: 12px;
+    -fx-text-fill: white;
+}
+.notif.red {
+    -fx-background-color: red;
+}
+.notif.yellow {
+    -fx-background-color: yellow;
+    -fx-text-fill: black;
+}
+.notif.green {
+    -fx-background-color: green;
+}
+
+.button {
+    -fx-pref-height: 100px;
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-cursor: hand;
+    -fx-padding: 10 0 10 20;
+}
+
+.button:hover {
+    -fx-background-color: #3b5998;
+}

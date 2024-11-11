@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ComboBox?> <!-- Importação do ComboBox -->
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1" spacing="10"
+      fx:controller="gui.ProdutoController" stylesheets="@styles.css">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20" />
+    </padding>
+
+    <Label text="Cadastro de Produto" styleClass="label-title" />
+
+    <GridPane hgap="10" vgap="10">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="50" />
+            <ColumnConstraints percentWidth="50" />
+        </columnConstraints>
+
+        <TextField fx:id="productNameField" promptText="Nome do Produto" styleClass="text-field" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <TextField fx:id="priceField" promptText="Preço" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <TextField fx:id="descriptionField" promptText="Descrição" styleClass="text-field" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <!-- ComboBox para Categoria -->
+        <ComboBox fx:id="categoryComboBox" promptText="Selecione a Categoria" styleClass="combo-box" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    </GridPane>
+
+    <HBox spacing="10">
+        <Button text="Criar" fx:id="createButton"
+                onAction="#handleCreate" styleClass="button" />
+        <Button text="Atualizar" fx:id="updateButton"
+                onAction="#handleUpdate" styleClass="button" />
+        <Button text="Deletar" fx:id="deleteButton"
+                onAction="#handleDelete" styleClass="button" />
+        <Button text="Cancelar edição" fx:id="camcelarEdicaoButton"
+                onAction="#handleCamcelarEdicao" styleClass="button" />  
+    </HBox>
+
+    <TableView fx:id="productTable" styleClass="table-view" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="idColumn" text="ID" />
+            <TableColumn fx:id="nameColumn" text="Nome" />
+            <TableColumn fx:id="priceColumn" text="Preço" />
+            <TableColumn fx:id="descriptionColumn" text="Descrição" />
+            <TableColumn fx:id="categoryColumn" text="Categoria" />
+        </columns>
+    </TableView>
+</VBox>

@@ -1,0 +1,175 @@
+/* styles.css */
+
+/* Estilo padrão para toda a aplicação */
+.root {
+    -fx-font-family: "Arial";
+    -fx-background-color: #f7f9fc;
+    -fx-padding: 20;
+}
+
+/* Labels de caixa */
+.label-title-caixa {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+/* Labels de título */
+.label-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+/* Labels de descrição e valores */
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555;
+}
+
+/* Campos de texto */
+.text-field, .password-field, .combo-box {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5;
+    -fx-padding: 6 12;
+}
+
+/* Tabelas */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 5;
+}
+.table-view .column-header-background {
+    -fx-background-color: #4CAF50;
+}
+.table-view .column-header .label {
+    -fx-text-fill: #000000;
+    -fx-font-weight: bold;
+}
+
+
+/* Estilo para o menu e botões */
+
+.menu-button {
+    -fx-background-color: #3498db; /* Cor de fundo azul suave */
+    -fx-text-fill: white; /* Cor do texto */
+    -fx-font-size: 16px; /* Tamanho da fonte */
+    -fx-font-weight: bold; /* Negrito */
+    -fx-background-radius: 10; /* Arredondamento dos cantos */
+    -fx-padding: 10 20; /* Espaçamento interno */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 3); /* Sombra */
+}
+
+.menu-button:hover {
+    -fx-background-color: #2980b9; /* Cor de fundo mais escura ao passar o mouse */
+}
+
+.menu-button:pressed {
+    -fx-background-color: #1f618d; /* Cor de fundo ainda mais escura ao pressionar */
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.4), 10, 0, 0, 0); /* Sombra interna ao pressionar */
+}
+
+/* Estilo para os itens do menu */
+.menu-label {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+.menu-icon {
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+}
+
+/* Estilo para o indicador de notificação */
+.notif {
+    -fx-background-radius: 10;
+    -fx-padding: 3 5;
+    -fx-font-size: 12px;
+    -fx-text-fill: white;
+}
+.notif.red {
+    -fx-background-color: red;
+}
+.notif.yellow {
+    -fx-background-color: yellow;
+    -fx-text-fill: white;
+}
+.notif.green {
+    -fx-background-color: green;
+}
+
+.button {
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER;
+    -fx-cursor: hand;
+    -fx-padding: 5 0 5 5;
+    -fx-pref-width: 110px;
+}
+
+.button-venda {
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER;
+    -fx-cursor: hand;
+    -fx-padding: 5 0 5 5;
+    -fx-pref-width: 150px;
+}
+
+.button-venda:hover {
+    -fx-background-color: #3b5998;
+}
+
+.button-remover-grid  {
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER;
+    -fx-cursor: hand;
+    -fx-padding: 5 0 5 5;
+    -fx-pref-width: 100px;
+}
+
+.button-adicionar:hover {
+    -fx-background-color: #3b5998;
+}
+
+.button-adicionar  {
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER;
+    -fx-cursor: hand;
+    -fx-padding: 5 0 5 5;
+    -fx-pref-width: 110px;
+}
+
+.button-adicionar:hover {
+    -fx-background-color: #3b5998;
+}
+
+.button:hover {
+    -fx-background-color: #3b5998;
+}
+
+#contentArea {
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+
+.menu-selecionado {
+    -fx-background-color: #000000; /* Cor de fundo do botão selecionado */
+    -fx-font-weight: bold;
+    -fx-text-fill: yellow; /* Cor do texto */
+    -fx-font-size: 18px; /* Tamanho do texto */
+    -fx-alignment: CENTER_LEFT;
+    -fx-pref-width: 250px; /* Largura do botão */
+    -fx-cursor: hand;
+}
+
+
