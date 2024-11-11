@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.FinanceiroController">
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10;">
+            <Label text="Data Inicial:" />
+            <DatePicker fx:id="dataInicialPicker" />
+            <Label text="Data Final:" />
+            <DatePicker fx:id="dataFinalPicker" />
+            <Button text="Filtrar" onAction="#filtrarPorData" />
+        </HBox>
+    </top>
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+            <Label styleClass="label-title" text="Financeiro">
+                <font>
+                    <Font name="System Bold" size="18.0" />
+                </font>
+            </Label>
+            <TableView fx:id="financeiroTable" styleClass="table-view" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="dataColumn" text="Data" />
+                    <TableColumn fx:id="clienteColumn" text="Cliente" />
+                    <TableColumn fx:id="valorTotalColumn" text="Valor Total" />
+                    <TableColumn fx:id="custoColumn" text="Custo" />
+                    <TableColumn fx:id="lucroColumn" text="Lucro" />
+                </columns>
+            </TableView>
+            <HBox alignment="CENTER_RIGHT" spacing="10">
+                <Label fx:id="totalVendasLabel" text="Total de Vendas: R$ 0,00" />
+                <Label fx:id="custoTotalLabel" text="Custo Total: R$ 0,00" />
+                <Label fx:id="lucroTotalLabel" text="Lucro Total: R$ 0,00" />
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

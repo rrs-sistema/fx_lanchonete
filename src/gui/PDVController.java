@@ -41,6 +41,9 @@ public class PDVController {
     private TableColumn<ProdutoModel, Double> cartQuantityColumn;   
     
     @FXML
+    private TableColumn<ProdutoModel, Integer> cartPrecoUnitarioColumn;
+    
+    @FXML
     private TableColumn<ProdutoModel, Integer> cartTotalColumn;
     
     @FXML
@@ -74,16 +77,28 @@ public class PDVController {
         // Configuração da tabela de carrinho
         cartProductColumn.setCellValueFactory(new PropertyValueFactory<>("produtoNome"));
         cartQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
-        cartTotalColumn.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
+        cartPrecoUnitarioColumn.setCellValueFactory(new PropertyValueFactory<>("precoUnitario"));
+        cartTotalColumn.setCellValueFactory(new PropertyValueFactory<>("totalItem"));
         
         // Configuração das larguras das colunas do cartTable
         cartQuantityColumn.setMinWidth(180);
         cartQuantityColumn.setMaxWidth(180);
-        cartTotalColumn.setMinWidth(160);
-        cartTotalColumn.setMaxWidth(160);
+        
+        cartPrecoUnitarioColumn.setMinWidth(160);
+        cartPrecoUnitarioColumn.setMaxWidth(180);
+        
+        cartTotalColumn.setMinWidth(100);
+        cartTotalColumn.setMaxWidth(140);
+        
         cartRemoveColumn.setMinWidth(110);
         cartRemoveColumn.setMaxWidth(110);
 
+        cartQuantityColumn.setStyle("-fx-alignment: CENTER;");
+        cartPrecoUnitarioColumn.setStyle("-fx-alignment: CENTER;");
+        cartTotalColumn.setStyle("-fx-alignment: CENTER;");
+        cartRemoveColumn.setStyle("-fx-alignment: CENTER;");
+        cartProductColumn.setStyle("-fx-alignment: CENTER;");
+        
         // Configurar a política de redimensionamento para preencher o restante da coluna "Produto"
         cartTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         
@@ -116,7 +131,7 @@ public class PDVController {
             return;
         }
 
-        CarrinhoItemModel itemCarrinho = new CarrinhoItemModel(selectedProduct, quantidade);
+        CarrinhoItemModel itemCarrinho = new CarrinhoItemModel(selectedProduct, quantidade, selectedProduct.getPreco());
         carrinho.add(itemCarrinho);
         
      // Atualizar o total sempre que um item é adicionado
@@ -171,7 +186,7 @@ public class PDVController {
     
  // Método para calcular e atualizar o total no totalLabel
     private void atualizarTotalLabel() {
-        double total = carrinho.stream().mapToDouble(CarrinhoItemModel::getPrecoTotal).sum();
+        double total = carrinho.stream().mapToDouble(CarrinhoItemModel::getTotalItem).sum();
         totalLabel.setText(String.format("Total: R$ %.2f", total));
     }
 

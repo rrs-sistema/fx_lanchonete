@@ -19,7 +19,8 @@ public class MainController {
     private Button btnProduto;
     @FXML
     private Button btnPDV;
-    
+    @FXML
+    private Button btnFinanceiro;
 
     @FXML
     private void initialize() {
@@ -38,13 +39,19 @@ public class MainController {
         botaoSelecionado.getStyleClass().add("menu-selecionado");
     }
     
+    @FXML
+    private void handleFinanceiro() {
+        carregarConteudo("/gui/Financeiro.fxml");
+        atualizarEstiloMenu(btnFinanceiro);
+    }
+    
     // Carrega a tela de Cadastro de categoria
     @FXML
     private void handleCadastroCategoria() {
         carregarConteudo("/gui/Categoria.fxml");
         atualizarEstiloMenu(btnCategoria);
     }
-
+    
     // Carrega a tela de Cadastro de Cliente
     @FXML    
     private void handleCadastroCliente() {

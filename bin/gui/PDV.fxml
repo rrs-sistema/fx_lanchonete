@@ -59,6 +59,7 @@
                 <columns>
                     <TableColumn fx:id="cartProductColumn" text="Produto" />
                     <TableColumn fx:id="cartQuantityColumn" text="Quantidade" />
+                    <TableColumn fx:id="cartPrecoUnitarioColumn" text="Preço Unitário" />
                     <TableColumn fx:id="cartTotalColumn" text="Preço Total" />
                     <TableColumn fx:id="cartRemoveColumn" text="Remover" />
                 </columns>

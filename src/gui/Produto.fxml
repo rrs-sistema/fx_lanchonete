@@ -29,10 +29,11 @@
         </columnConstraints>
 
         <TextField fx:id="productNameField" promptText="Nome do Produto" styleClass="text-field" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <ComboBox fx:id="categoryComboBox" promptText="Selecione a Categoria" styleClass="combo-box" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         <TextField fx:id="priceField" promptText="Preço" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="0" />
         <TextField fx:id="descriptionField" promptText="Descrição" styleClass="text-field" GridPane.columnIndex="0" GridPane.rowIndex="1" />
         <!-- ComboBox para Categoria -->
-        <ComboBox fx:id="categoryComboBox" promptText="Selecione a Categoria" styleClass="combo-box" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        
     </GridPane>
 
     <HBox spacing="10">
@@ -50,9 +51,9 @@
         <columns>
             <TableColumn fx:id="idColumn" text="ID" />
             <TableColumn fx:id="nameColumn" text="Nome" />
+            <TableColumn fx:id="categoryColumn" text="Categoria" />
             <TableColumn fx:id="priceColumn" text="Preço" />
             <TableColumn fx:id="descriptionColumn" text="Descrição" />
-            <TableColumn fx:id="categoryColumn" text="Categoria" />
         </columns>
     </TableView>
 </VBox>

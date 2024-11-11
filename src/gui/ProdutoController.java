@@ -13,6 +13,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.CategoriaModel;
 import model.ProdutoModel;
+import service.CategoriaService;
+import service.ProdutoService;
 
 public class ProdutoController {
 
@@ -38,7 +40,7 @@ public class ProdutoController {
     private TextField priceField;
 
     @FXML
-    private ComboBox<String> categoryComboBox;
+    private ComboBox<CategoriaModel> categoryComboBox;
     
     @FXML
     private TableColumn<?, ?> categoryColumn;
@@ -64,26 +66,26 @@ public class ProdutoController {
     @SuppressWarnings("deprecation")
 	@FXML
     private void initialize() {
-        // Preenchendo o ComboBox com uma lista de categorias
-        ObservableList<String> categories = FXCollections.observableArrayList(
-            "Lanches", "Bebidas", "Outros"
-        );
-        categoryComboBox.setItems(categories);
-        
+    	idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+    	idColumn.setVisible(false);
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
-        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("descricao"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("preco"));
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("categoria"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("preco"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("descricao"));
 	    
 	    // Definir larguras e centralizar o conteúdo das colunas
-        nameColumn.setMinWidth(200);
+        nameColumn.setMinWidth(220);
         descriptionColumn.setMinWidth(250);
-        priceColumn.setMaxWidth(100);
-        categoryColumn.setMaxWidth(150);
+        descriptionColumn.setMinWidth(450);
+        priceColumn.setMinWidth(100);
+        priceColumn.setMaxWidth(120);
+        categoryColumn.setMinWidth(100);
+        categoryColumn.setMaxWidth(200);
 	    
         nameColumn.setStyle("-fx-alignment: CENTER;");
         descriptionColumn.setStyle("-fx-alignment: CENTER;");
         priceColumn.setStyle("-fx-alignment: CENTER;");
+        categoryColumn.setStyle("-fx-alignment: CENTER;");
 	    
 	    productTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 	    
@@ -110,47 +112,72 @@ public class ProdutoController {
                 createButton.setDisable(false);
             }
         });
+        carregarCategorias();
+        carregarProdutos();
     }
 
+    private void carregarCategorias() {
+        ObservableList<CategoriaModel> categorias = FXCollections.observableArrayList();
+        try {
+            categorias = CategoriaService.listarCategorias(); // Obtenha a lista de categorias do banco de dados
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        categoryComboBox.setItems(categorias);
+    }
+    
+    private void carregarProdutos() {
+        ObservableList<ProdutoModel> produtos = FXCollections.observableArrayList();
+		try {
+			produtos = ProdutoService.listarProdutos();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(!produtos.isEmpty())
+			productTable.setItems(produtos);
+    }
+    
     @FXML
     private void handleCreate() {
-    	if (productNameField == null) {
-			showAlert("Nenhum nome informado", "Por favor, informe o nome do produto.");
-			return;
-		}
-		if (descriptionField == null) {
-			showAlert("Nenhuma descrição informada", "Por favor, informe a descrição do produto.");
-			return;
-		}
-		if (priceField == null) {
-			showAlert("Nenhum preço informado", "Por favor, informe o preço do produto.");
-			return;
-		}    	
-        String name = productNameField.getText();
+        
+    	if (productNameField.getText().isEmpty() || descriptionField.getText().isEmpty() || categoryComboBox == null || categoryComboBox.getSelectionModel() == null || priceField.getText().isEmpty()) {
+            showAlert("Erro", "Todos os campos devem ser preenchidos", Alert.AlertType.ERROR);
+            return;
+        }
+		
+        String nome = productNameField.getText();
         String descricao = descriptionField.getText();
         double preco = priceField.getText().isEmpty() ? 0 : Double.parseDouble(priceField.getText());
-        CategoriaModel categoria = new CategoriaModel(0L, "Nova");
+        CategoriaModel categoria = categoryComboBox.getSelectionModel().getSelectedItem();
+        ProdutoModel novoProduto = new ProdutoModel();
+        novoProduto.setNome(nome);
+        novoProduto.setDescricao(descricao);
+        novoProduto.setCategoria(categoria);
+        novoProduto.setPreco(preco);
+        ProdutoService.insert(novoProduto);
         
-        //String nome, String descricao, CategoriaModel categoria, double preco
-
-        ProdutoModel novoProduto = new ProdutoModel(name, descricao, categoria, preco);
-        produtos.add(novoProduto);
-
+        showAlert("Sucesso", "Produto cadastrado com sucesso!", Alert.AlertType.INFORMATION);
+        carregarProdutos();
         limparCampos();
     }
 
     @FXML
     private void handleUpdate() {
         if (produtoSelecionado != null) {
+        	
+	    	if (productNameField.getText().isEmpty() || descriptionField.getText().isEmpty() || categoryComboBox == null || categoryComboBox.getSelectionModel() == null || priceField.getText().isEmpty()) {
+	            showAlert("Erro", "Todos os campos devem ser preenchidos", Alert.AlertType.ERROR);
+	            return;
+	        }
+	        	
             // Atualizar os dados do produto selecionado com os valores dos campos de texto
+	    	Long id = produtoSelecionado.getId(); // Obtenha o ID do item selecionado
+	    	produtoSelecionado.setId(id);
             produtoSelecionado.setNome(productNameField.getText());
             produtoSelecionado.setDescricao(descriptionField.getText());
             produtoSelecionado.setPreco(Double.parseDouble(priceField.getText()));
-            /*
-            private TextField productNameField;
-            private TextField descriptionField;
-            private TextField priceField;
-            */
+            ProdutoService.update(produtoSelecionado);
             
             // Atualizar a tabela para refletir as mudanças
             productTable.refresh();
@@ -215,6 +242,14 @@ public class ProdutoController {
     	priceField.clear();
     }
 
+    private void showAlert(String title, String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+    
     private void showAlert(String title, String message) {
         Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle(title);
