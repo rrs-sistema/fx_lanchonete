@@ -8,3 +8,4 @@ Essa aplicação tem:
 2º - Cadastro de clientes
 3º - Cadastro de produtos
 4º - Venda dos lanches
+4º - Relatório financeiro
