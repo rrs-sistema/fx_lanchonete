@@ -1,5 +1,7 @@
 Aplçicação simples para lanchanete usando JavaFX e Banco de dados MySql 5.7
 
+<img src="/tela-aplicação-lanchonete.png">
+
 Essa aplicação tem:
 
 1º - Cadastro de categorias
