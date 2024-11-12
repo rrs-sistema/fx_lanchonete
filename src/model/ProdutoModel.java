@@ -6,24 +6,26 @@ public class ProdutoModel {
 	private String nome;
 	private String descricao;
 	private CategoriaModel categoria;
+	private double estoque;
 	private double preco;
-	private double custo; // Custo do produto para cálculo de lucro
+	private double custo;
 
 	public ProdutoModel() {
 	}
 
-	public ProdutoModel(String nome, double preco) {
+	public ProdutoModel(Long id, String nome, double preco) {
+		this.id = id;
 		this.nome = nome;
 		this.preco = preco;
 	}
-
-	public ProdutoModel(String nome, String descricao, CategoriaModel categoria, double preco) {
+	
+	public ProdutoModel(Long id, String nome, String descricao, double preco) {
+		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
-		this.categoria = categoria;
 		this.preco = preco;
 	}
-
+	
 	public ProdutoModel(Long id, String nome, String descricao, CategoriaModel categoria, double preco) {
 		this.id = id;
 		this.nome = nome;
@@ -31,7 +33,7 @@ public class ProdutoModel {
 		this.categoria = categoria;
 		this.preco = preco;
 	}
-
+	
 	public ProdutoModel(Long id, String nome, String descricao, CategoriaModel categoria, double preco, double custo) {
 		this.id = id;
 		this.nome = nome;
@@ -41,6 +43,16 @@ public class ProdutoModel {
 		this.custo = custo;
 	}
 
+	public ProdutoModel(Long id, String nome, String descricao, CategoriaModel categoria, double preco, double custo, double estoque) {
+		this.id = id;
+		this.nome = nome;
+		this.descricao = descricao;
+		this.categoria = categoria;
+		this.preco = preco;
+		this.custo = custo;
+		this.estoque = estoque;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -90,4 +102,17 @@ public class ProdutoModel {
 		this.custo = custo;
 	}
 
+	@Override
+	public String toString() {
+		return nome;
+	}
+
+	public double getEstoque() {
+		return estoque;
+	}
+
+	public void setEstoque(double estoque) {
+		this.estoque = estoque;
+	}
+	
 }

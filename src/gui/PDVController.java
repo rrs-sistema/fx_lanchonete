@@ -1,5 +1,10 @@
 package gui;
 
+import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,7 +20,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import model.CarrinhoItemModel;
+import model.CarrinhoModel;
+import model.ClienteModel;
 import model.ProdutoModel;
+import service.CarrinhoService;
+import service.ClienteService;
+import service.ProdutoService;
 
 public class PDVController {
 
@@ -41,10 +51,10 @@ public class PDVController {
     private TableColumn<ProdutoModel, Double> cartQuantityColumn;   
     
     @FXML
-    private TableColumn<ProdutoModel, Integer> cartPrecoUnitarioColumn;
+    private TableColumn<ProdutoModel, Double> cartPrecoUnitarioColumn;
     
     @FXML
-    private TableColumn<ProdutoModel, Integer> cartTotalColumn;
+    private TableColumn<ProdutoModel, Double> cartTotalColumn;
     
     @FXML
     private TableColumn<CarrinhoItemModel, Void> cartRemoveColumn;    
@@ -60,8 +70,6 @@ public class PDVController {
     
     @FXML
     private Label totalLabel;
-
-    private double total = 0.0;
     
     private ObservableList<CarrinhoItemModel> carrinho = FXCollections.observableArrayList();
 
@@ -71,6 +79,8 @@ public class PDVController {
     	// Configurar as colunas
         menuProductColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
         menuPriceColumn.setCellValueFactory(new PropertyValueFactory<>("preco"));
+        
+        configurarColunaMoeda(menuPriceColumn);        
         // Carregar produtos na tabela
         menuTable.setItems(getProdutos());
         
@@ -89,6 +99,9 @@ public class PDVController {
         
         cartTotalColumn.setMinWidth(100);
         cartTotalColumn.setMaxWidth(140);
+        
+        configurarColunaMoeda(cartPrecoUnitarioColumn);
+        configurarColunaMoeda(cartTotalColumn);
         
         cartRemoveColumn.setMinWidth(110);
         cartRemoveColumn.setMaxWidth(110);
@@ -109,6 +122,26 @@ public class PDVController {
         
         // Inicializar o total
         atualizarTotalLabel();        
+    }
+    
+    private void configurarColunaMoeda(TableColumn<ProdutoModel, Double> coluna) {
+        coluna.setCellFactory(new Callback<TableColumn<ProdutoModel, Double>, TableCell<ProdutoModel, Double>>() {
+            @Override
+            public TableCell<ProdutoModel, Double> call(TableColumn<ProdutoModel, Double> param) {
+                return new TableCell<ProdutoModel, Double>() {
+                    @Override
+                    protected void updateItem(Double valor, boolean empty) {
+                        super.updateItem(valor, empty);
+                        if (empty || valor == null) {
+                            setText(null);
+                        } else {
+                            NumberFormat formatoBrasileiro = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+                            setText(formatoBrasileiro.format(valor));
+                        }
+                    }
+                };
+            }
+        });
     }
     
     @FXML
@@ -193,23 +226,95 @@ public class PDVController {
     
     @FXML
     private void handleCheckout() {
-        // Finalize a venda e limpe o carrinho
-        System.out.println("Venda finalizada. Total: R$ " + String.format("%.2f", total));
-        total = 0.0;
-        totalLabel.setText("Total: R$ 0,00");
-        cartTable.getItems().clear();
+        VendaDialog dialog = new VendaDialog();
+
+        // Exibir a lista de clientes
+        dialog.getClienteComboBox().getItems().addAll(getClientes());
+
+        dialog.getConfirmarButton().setOnAction(event -> {
+        	ClienteModel clienteSelecionado = dialog.getClienteComboBox().getValue();
+            String pagamentoSelecionado = dialog.getPagamentoComboBox().getValue();
+
+            if (clienteSelecionado == null || pagamentoSelecionado == null) {
+                showAlert("Campos obrigatórios", "Por favor, selecione o cliente e o tipo de pagamento.");
+            } else {
+                salvarVenda(clienteSelecionado, pagamentoSelecionado); // Função para salvar a venda
+                dialog.close();
+            }
+        });
+
+        dialog.showAndWait();
     }
     
-    // Lista de produtos para o cardápio
+    private void salvarVenda(ClienteModel cliente, String tipoPagamento) {
+        List<CarrinhoItemModel> itens = new ArrayList<>(carrinho);  // Considerando que "carrinho" é a lista de itens
+
+        CarrinhoModel carrinhoModel = new CarrinhoModel();
+        carrinhoModel.setCliente(cliente);
+        carrinhoModel.setTipoPagamento(tipoPagamento);
+        carrinhoModel.setData(LocalDate.now());
+        carrinhoModel.setItens(itens);
+
+        // Calcula o custo total e o valor total dos itens
+        double custoTotal = itens.stream().mapToDouble(CarrinhoItemModel::getPrecoUnitario).sum();
+        carrinhoModel.setCustoTotal(custoTotal);
+
+        // Salva no banco
+        boolean sucesso = CarrinhoService.salvarVenda(carrinhoModel);
+
+        if (sucesso) {
+            showAlert("Venda finalizada", "A venda foi salva com sucesso!", Alert.AlertType.INFORMATION);
+            for (CarrinhoItemModel item : itens) {
+            	ProdutoModel produto = item.getProduto();
+            	ProdutoService.updateEstoque(produto.getId(), item.getQuantidade());
+    		}            
+            limparCarrinho();
+        } else {
+            showAlert("Erro ao finalizar venda", "Houve um problema ao salvar a venda.", Alert.AlertType.ERROR);
+        }
+    }
+    
+    @SuppressWarnings("exports")
+	public double obterValorDouble(TextField campo) {
+        String textoFormatado = campo.getText().replaceAll("[^\\d,]", "").replace(",", ".");
+        return Double.parseDouble(textoFormatado);
+    }
+    
+    private ObservableList<ClienteModel> getClientes() {
+        ObservableList<ClienteModel> produtos = FXCollections.observableArrayList();
+        
+        try {
+			produtos = ClienteService.listarClientes();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return produtos;
+    }
+    
     private ObservableList<ProdutoModel> getProdutos() {
         ObservableList<ProdutoModel> produtos = FXCollections.observableArrayList();
-      
-        produtos.add(new ProdutoModel("Hamburguer", 15.00));
-        produtos.add(new ProdutoModel("Pizza", 20.00));
-        produtos.add(new ProdutoModel("Refrigerante", 5.00));
-        produtos.add(new ProdutoModel("Batata Frita", 10.00));
-        produtos.add(new ProdutoModel("Suco", 7.00));
+        
+        try {
+			produtos = ProdutoService.listarProdutos();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return produtos;
+    }
+    
+    private void limparCarrinho() {
+        carrinho.clear();
+        atualizarTotalLabel();
+    }
+
+    private void showAlert(String title, String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
     
     private void showAlert(String title, String message) {

@@ -14,6 +14,13 @@ public class ClienteModel {
 		super();
 	}
 	
+	public ClienteModel(Long id, String nome) {
+		super();
+		this.id = id;
+		this.nome = nome;
+	}
+	
+	
 	public ClienteModel(String nome, String email, String telefone, String endereco, String bairro, String cidade) {
 		super();
 		this.nome = nome;
@@ -81,5 +88,9 @@ public class ClienteModel {
 	}
 	
 	
+	@Override
+	public String toString() {
+		return nome;
+	}
 	
 }

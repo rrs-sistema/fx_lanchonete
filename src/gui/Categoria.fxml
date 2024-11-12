@@ -1,47 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.geometry.Insets?>
 
-<VBox xmlns="http://javafx.com/javafx/8.0.171"
-      xmlns:fx="http://javafx.com/fxml/1" spacing="10"
-      fx:controller="gui.CategoriaController" stylesheets="@styles.css">
+<VBox spacing="10" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CategoriaController">
 
     <padding>
-        <Insets top="20" right="20" bottom="20" left="20" />
+        <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
 
-    <Label text="Cadastro de categoria" styleClass="label-title-caixa" />
+    <Label styleClass="label-title-caixa" text="Cadastro de categoria" />
 
     <GridPane hgap="10" vgap="10">
         <columnConstraints>
             <ColumnConstraints percentWidth="100" />
         </columnConstraints>
 
-        <TextField fx:id="categoriaNameField"
-                   promptText="Nome da Categoria" styleClass="text-field"
-                   GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <TextField fx:id="categoriaNameField" promptText="Nome da Categoria" styleClass="text-field" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+      <rowConstraints>
+         <RowConstraints />
+      </rowConstraints>
     
     </GridPane>
 
     <HBox spacing="10">
-        <Button text="Criar" fx:id="createButton"
-                onAction="#handleCreate" styleClass="button" />
-        <Button text="Atualizar" fx:id="updateButton"
-                onAction="#handleUpdate" styleClass="button" />
-        <Button text="Deletar" fx:id="deleteButton"
-                onAction="#handleDelete" styleClass="button" />
+        <Button fx:id="createButton" onAction="#handleCreate" styleClass="button" text="Criar" />
+        <Button fx:id="updateButton" onAction="#handleUpdate" styleClass="button" text="Atualizar" />
+        <Button fx:id="deleteButton" onAction="#handleDelete" styleClass="button" text="Deletar" />
                 
-        <Button text="Cancelar edição" fx:id="camcelarEdicaoButton"
-                onAction="#handleCamcelarEdicao" styleClass="button" />                
+        <Button fx:id="camcelarEdicaoButton" onAction="#handleCamcelarEdicao" styleClass="button" text="Cancelar edição" />                
     </HBox>
 
     <TableView fx:id="categoriaTable" styleClass="table-view" VBox.vgrow="ALWAYS">

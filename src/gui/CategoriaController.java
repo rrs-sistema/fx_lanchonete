@@ -45,20 +45,13 @@ public class CategoriaController {
     private ObservableList<CategoriaModel> categorias = FXCollections.observableArrayList();
     private CategoriaModel categoriaselecionado;
 
-    @SuppressWarnings("deprecation")
 	@FXML
     private void initialize() {
         // Configuração das colunas
 	    // Configurar as colunas
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
 	    
-	    // Definir larguras e centralizar o conteúdo das colunas
-	    nameColumn.setMinWidth(350);
-	    nameColumn.setMaxWidth(650);
-	    
-	    nameColumn.setStyle("-fx-alignment: CENTER;");
-	    
-	    categoriaTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+	    categoriaTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 	    
         categoriaTable.setItems(categorias);
 

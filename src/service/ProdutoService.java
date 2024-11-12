@@ -14,13 +14,15 @@ import model.ProdutoModel;
 public class ProdutoService {
 
 	public static void insert(ProdutoModel produto) {
-	    String sql = "INSERT INTO produto (nome, descricao, categoria_id, preco) VALUES (?, ?, ?, ?)";
+	    String sql = "INSERT INTO produto (nome, descricao, categoria_id, preco, custo, estoque) VALUES (?, ?, ?, ?, ?, ?)";
 	    try (Connection conn = ConnectionFactory.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(sql)) {
 	        stmt.setString(1, produto.getNome());
 	        stmt.setString(2, produto.getDescricao());
 	        stmt.setLong(3, produto.getCategoria().getId());
 	        stmt.setDouble(4, produto.getPreco());
+	        stmt.setDouble(5, produto.getCusto());
+	        stmt.setDouble(6, produto.getEstoque());
 	        stmt.executeUpdate();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
@@ -28,14 +30,28 @@ public class ProdutoService {
 	}
 	
 	public static void update(ProdutoModel produto) {
-	    String sql = "UPDATE produto SET nome = ?, descricao = ?, categoria_id = ?, preco = ? WHERE id = ?";
+	    String sql = "UPDATE produto SET nome = ?, descricao = ?, categoria_id = ?, preco = ? , custo = ? , estoque = ? WHERE id = ?";
 	    try (Connection conn = ConnectionFactory.getConnection();
 	         PreparedStatement stmt = conn.prepareStatement(sql)) {
 	        stmt.setString(1, produto.getNome());
 	        stmt.setString(2, produto.getDescricao());
 	        stmt.setLong(3, produto.getCategoria().getId());
 	        stmt.setDouble(4, produto.getPreco());
-	        stmt.setLong(5, produto.getId());
+	        stmt.setDouble(5, produto.getCusto());
+	        stmt.setDouble(6, produto.getEstoque());
+	        stmt.setLong(7, produto.getId());
+	        stmt.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public static void updateEstoque(Long produtoId, double totalSaida) {
+	    String sql = "UPDATE produto SET estoque = estoque - ? WHERE id = ?";
+	    try (Connection conn = ConnectionFactory.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        stmt.setDouble(1, totalSaida);
+	        stmt.setLong(2, produtoId);
 	        stmt.executeUpdate();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
@@ -54,7 +70,7 @@ public class ProdutoService {
 	}	
 	
 	public static ObservableList<ProdutoModel> listarProdutos() throws Exception {
-        String sql = "SELECT p.id, p.nome, p.descricao, p.preco, c.id as categoria_id, c.nome as categoria_nome " +
+        String sql = "SELECT p.id, p.nome, p.descricao, p.estoque, p.preco, p.custo, c.id as categoria_id, c.nome as categoria_nome " +
                      "FROM produto p " +
                      "JOIN categoria c ON p.categoria_id = c.id";
 
@@ -75,7 +91,9 @@ public class ProdutoService {
                         rs.getString("nome"),
                         rs.getString("descricao"),
                         categoria,
-                        rs.getDouble("preco")
+                        rs.getDouble("preco"),
+                        rs.getDouble("custo"),
+                        rs.getDouble("estoque")
                 );
 
                 produtos.add(produto);
